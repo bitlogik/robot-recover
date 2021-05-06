@@ -421,9 +421,9 @@ if not args.quiet:
 if not args.recovery:
     sys.exit(0)
 
-# if oracle_strength == "weak":
-# print("The oracle is weak, no recovery will be performed")
-# sys.exit(0)
+if oracle_strength == "weak":
+    print("The oracle is weak, no recovery will be performed")
+    sys.exit(0)
 
 ################################################################################
 # Preparing data for recovery
