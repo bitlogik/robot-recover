@@ -28,6 +28,7 @@ import sys
 import socket
 import os
 import argparse
+from ssl import SSLError
 
 from modular_math import inverse_mod
 from ssl_rsa import get_rsa_from_server
