@@ -189,6 +189,8 @@ args = parser.parse_args()
 args.port = int(args.port)
 timeout = 0.7
 
+if args.csv:
+    args.quiet = True
 
 # We only enable TCP fast open if the Linux proc interface exists
 enable_fastopen = os.path.exists("/proc/sys/net/ipv4/tcp_fastopen")
@@ -227,7 +229,8 @@ except (ConnectionRefusedError, socket.timeout) as e:
         print("NOTLS,%s,%s,,,,,,,," % (args.host, ip))
     sys.exit(1)
 
-print("Certificate read from server.")
+if not args.quiet:
+    print("Certificate read from server.")
 modulus_bits = int(math.ceil(math.log(N, 2)))
 modulus_bytes = (modulus_bits + 7) // 8
 if not args.quiet:
@@ -237,13 +240,16 @@ if not args.quiet:
     print(f"RSA e = {hex(e)}")
 
 if args.gcm:
-    print("Use TLS-RSA-WITH-AES-128-GCM-SHA256")
+    if not args.quiet:
+        print("Use TLS-RSA-WITH-AES-128-GCM-SHA256")
     ch = ch_gcm
 elif args.cbc:
-    print("Use TLS_RSA_WITH_AES_128_CBC_SHA")
+    if not args.quiet:
+        print("Use TLS_RSA_WITH_AES_128_CBC_SHA")
     ch = ch_cbc
 else:
-    print("Use all TLS_RSA ciphers with AES and 3DES")
+    if not args.quiet:
+        print("Use all TLS_RSA ciphers with AES and 3DES")
     ch = ch_def
 
 cke_2nd_prefix = bytearray.fromhex(
