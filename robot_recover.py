@@ -31,7 +31,7 @@ import argparse
 from ssl import SSLError
 
 from modular_math import inverse_mod
-from ssl_rsa import get_rsa_from_server
+from ssl_rsa import get_rsa_from_server, SSLCertException
 
 # This uses all TLS_RSA ciphers with AES and 3DES
 ch_def = bytearray.fromhex(
@@ -187,7 +187,7 @@ parser.add_argument("--csv", help="Output CSV format", action="store_true")
 args = parser.parse_args()
 
 args.port = int(args.port)
-timeout = 0.7
+timeout = 0.75
 
 if args.csv:
     args.quiet = True
@@ -221,7 +221,14 @@ except SSLError as e:
     if args.csv:
         print("NORSA,%s,%s,,,,,,,," % (args.host, ip))
     sys.exit(1)
-except (ConnectionRefusedError, socket.timeout) as e:
+except SSLCertException as e:
+    if not args.quiet:
+        print("Cannot connect to server: %s" % e)
+        print("Can't found RSA key in server certificate.")
+    if args.csv:
+        print("NOCERTRSA,%s,%s,,,,,,,," % (args.host, ip))
+    sys.exit(1)
+except (ConnectionRefusedError, ConnectionResetError, socket.timeout) as e:
     if not args.quiet:
         print("Cannot connect to server: %s" % e)
         print("There seems to be no TLS on this host/port.")

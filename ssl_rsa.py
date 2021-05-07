@@ -21,6 +21,10 @@ import ssl
 import asn1
 
 
+class SSLCertException(Exception):
+    pass
+
+
 def asn2object(asn_bytes):
     decoder = asn1.Decoder()
     decoder.start(asn_bytes)
@@ -43,9 +47,19 @@ def asn2object(asn_bytes):
 def get_rsakey(x509cert_object):
     # Extract subjectPublicKeyInfo - rsaEncryption
     #  modulus and exponent
+    if (
+        len(x509cert_object) < 1
+        or len(x509cert_object[0]) < 1
+        or len(x509cert_object[0][0]) < 7
+    ):
+        raise SSLCertException("Certificate is not strict x509")
     pubkey_info = x509cert_object[0][0][6]
+    if len(pubkey_info) < 1 or len(pubkey_info[0]) < 1:
+        raise SSLCertException("Certificate is not strict x509 public key")
     if pubkey_info[0][0] != "1.2.840.113549.1.1.1":
-        raise Exception("Expect RSAES-PKCS1-v1_5 encryption scheme for the public key")
+        raise SSLCertException(
+            "Expect RSAES-PKCS1-v1_5 encryption scheme for the public key"
+        )
     key_asn = pubkey_info[1][1:]
     # Return [n, e]
     return asn2object(key_asn)[0]
