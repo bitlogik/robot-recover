@@ -307,7 +307,7 @@ if oracle_good == oracle_bad1 == oracle_bad2 == oracle_bad3 == oracle_bad4:
     if oracle_good == oracle_bad1 == oracle_bad2 == oracle_bad3 == oracle_bad4:
         if not args.quiet:
             print("Identical results (%s), no working oracle found" % oracle_good)
-            print("NOT VULNERABLE!")
+            print("Not vulnerable")
         if args.csv:
             print(
                 "SAFE,%s,%s,,,,%s,%s,%s,%s,%s"
@@ -363,7 +363,6 @@ if (
 # case where we can distinguish valid from invalid requests is when we send
 # correctly formatted PKCS#1 message with 0x00 on a correct position. This
 # makes our oracle weaker
-print("")
 if oracle_bad1 == oracle_bad2 == oracle_bad3:
     oracle_strength = "weak"
     if not args.quiet:
@@ -423,6 +422,7 @@ if not args.quiet:
     print("Result of bad request 2 (wrong 0x00 position): %s" % oracle_bad2)
     print("Result of bad request 3 (missing 0x00):        %s" % oracle_bad3)
     print("Result of bad request 4 (bad TLS version):     %s" % oracle_bad4)
+    print("")
 
 # Only continue if we want to recover
 if not args.recovery:
