@@ -32,6 +32,14 @@ limit  : default="-1", s0 limit value (default -1 = no limit)
 --cbc  : Use only CBC/AES128  
 --csv  : Output with CSV format  
 
+There is also a scanner for domains. It takes as input a *domains.txt* file 
+(one domain per line, or CSV with the domain in the first column), and it outputs 
+in *results.csv* file.  
+Build a *domains.txt* file list with domains, and then run :
+```
+$ python3 scan.py
+```
+
 Dependencies
 ============
 
