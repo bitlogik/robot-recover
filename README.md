@@ -43,7 +43,7 @@ $ python3 scan.py
 Dependencies
 ============
 
-This script needs only Python 3, there is no external dependency needed.
+This script needs only Python 3 (at least 3.6), there is no external dependency needed.
 
 License
 =======
