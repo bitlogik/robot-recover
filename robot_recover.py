@@ -178,6 +178,9 @@ parser.add_argument(
 parser.add_argument(
     "-s", "--recovery", help="Try to recovery if vulnerable", action="store_true"
 )
+parser.add_argument(
+    "-t", "--nothread", help="Disable parallel thread", action="store_true"
+)
 parser.add_argument("-p", "--port", metavar="int", default=443, help="TCP port")
 parser.add_argument("-q", "--quiet", help="Quiet", action="store_true")
 groupcipher = parser.add_mutually_exclusive_group()
@@ -515,6 +518,8 @@ starttime = time.time()
 print("Searching for the first valid ciphertext starting %i" % s0)
 if EXECUTE_BLINDING:
     nproc = int(multiprocessing.cpu_count())
+    if args.nothread:
+        nproc = 1
     p = multiprocessing.Pool(nproc)
     i = s0
     chunks = 1000
