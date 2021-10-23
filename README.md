@@ -15,7 +15,7 @@ Usage
 $ python3 robot_recover.py
 
 usage: robot_recover.py [-h] [-r RAW | -m MESSAGE | -f FILE] [-s] [-p int]
-                        [-q] [--gcm | --cbc] [--csv]
+                        [-t] [-q] [--gcm | --cbc] [--csv]
                         host [s0] [limit]
 ```
 
@@ -26,6 +26,7 @@ host  : Target host domain
 s0  : Start for s0 value (default 1)  
 limit  : default="-1", s0 limit value (default -1 = no limit)  
 -s, --recovery  : Try to recover if vulnerable  
+-t, --nothread  : Disable parallel thread  
 -p, --port  : TCP port (default=443)  
 -q, --quiet  : Quiet (activated by default)  
 --gcm  : Use only GCM/AES256  
