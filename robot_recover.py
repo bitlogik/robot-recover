@@ -688,7 +688,8 @@ checkscript = (
     "openssl s_client -connect {1}:{2} </dev/null 2>/dev/null "
     "| openssl x509 -noout -pubkey -out {1}-pub.key\n"
     "# Once expired or offline :\n"
-    "# wget -qO- https://crt.sh/?d={3} | openssl x509 -noout -pubkey -out {1}-pub.key\n"
+    "# wget -qO- https://censys.io/certificates/{3}/pem/raw"
+    " | openssl x509 -noout -pubkey -out {1}-pub.key\n"
     "# Check the signature with this public key\n"
     "openssl rsautl -verify -in {1}.sig -pubin -inkey {1}-pub.key\n"
 )
